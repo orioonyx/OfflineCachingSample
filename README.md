@@ -19,6 +19,8 @@ Libraries used on the sample project ✨
  * ViewModel
  * Retrofit
  * Glide
+ * Flow
+<br>
 
 # Demo 🚀
 ![demo](https://user-images.githubusercontent.com/74607521/205621410-2017d134-38bf-4769-b960-2165e9cf3354.png)
