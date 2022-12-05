@@ -6,9 +6,9 @@ Simple app gets its data from REST API and caches them phone storage locally.
 
 This app is built by MVVM architecture. This app gets its data from REST API with the help of Retrofit2 and Kotlin Coroutines and caches them to Room database. NetworkBoundResource helper method is implemented with the help of Kotlin Flow. Dependencies are injected by Hilt.
 
-<br><br>
+<br>
 The demo data used [FakeStoreAPI](https://github.com/keikaavousi/fake-store-api).
-<br><br>
+<br>
 
 Libraries used on the sample project ✨
 ------------------------------------
@@ -19,8 +19,8 @@ Libraries used on the sample project ✨
  * ViewModel
  * Retrofit
  * Glide
+<br>
 
-<br><br>
 # Demo 🚀
 ![demo](https://user-images.githubusercontent.com/74607521/205621410-2017d134-38bf-4769-b960-2165e9cf3354.png)
 <br><br>
