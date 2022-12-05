@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">OfflineCachingSample</string>
+    <string name="product_image">product image</string>
+    <string name="product_title">product name</string>
+    <string name="product_category">product category</string>
+    <string name="product_price">0.0</string>
+    <string name="product_description">product description</string>
+    <string name="error_msg">Unable to get product information.</string>
 </resources>
