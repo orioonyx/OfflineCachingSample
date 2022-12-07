@@ -6,4 +6,6 @@
     <string name="product_price">0.0</string>
     <string name="product_description">product description</string>
     <string name="error_msg">Unable to get product information.</string>
+    <string name="action_delete_cache">Delete All Caches</string>
+    <string name="action_refresh">Refresh View</string>
 </resources>
