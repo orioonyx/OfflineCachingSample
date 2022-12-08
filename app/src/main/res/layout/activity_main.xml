@@ -32,6 +32,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:visibility="invisible"
+        android:indeterminateTint="@color/gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

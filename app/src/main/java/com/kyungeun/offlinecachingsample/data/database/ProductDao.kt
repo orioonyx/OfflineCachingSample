@@ -1,6 +1,5 @@
 package com.kyungeun.offlinecachingsample.data.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.kyungeun.offlinecachingsample.data.model.Product
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +11,7 @@ interface ProductDao {
     fun getAllProducts(): Flow<List<Product>>
 
     @Query("SELECT * FROM products WHERE id = :id")
-    fun getProduct(id : Int): LiveData<Product>
+    fun getProduct(id : Int): Flow<Product>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllProducts(products: List<Product>)

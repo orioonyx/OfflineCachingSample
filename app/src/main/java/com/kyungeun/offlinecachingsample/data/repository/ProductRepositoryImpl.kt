@@ -1,6 +1,5 @@
 package com.kyungeun.offlinecachingsample.data.repository
 
-import androidx.lifecycle.LiveData
 import androidx.room.withTransaction
 import com.kyungeun.offlinecachingsample.data.api.ProductApi
 import com.kyungeun.offlinecachingsample.data.database.ProductDatabase
@@ -33,11 +32,30 @@ class ProductRepositoryImpl(
         }
     )
 
-    override fun getProduct(id: Int): LiveData<Product> {
-        try {
-            return dao.getProduct(id)
+    override fun getProduct(id: Int): Flow<Resource<Product>> = networkBoundResource(
+        query = {
+            dao.getProduct(id)
+        },
+        fetch = {
+            delay(500)
+            api.getProduct(id)
+        },
+        saveFetchResult = { product ->
+            db.withTransaction {
+                dao.deleteProduct(product)
+                dao.insertProduct(product)
+            }
+        }
+    )
+
+    override suspend fun deleteAllProducts(): Resource<Unit> {
+        return try {
+            db.withTransaction {
+                dao.deleteAllProducts()
+            }
+            Resource.Success(Unit)
         } catch (e: Exception) {
-            throw e
+            Resource.Error(e)
         }
     }
 }

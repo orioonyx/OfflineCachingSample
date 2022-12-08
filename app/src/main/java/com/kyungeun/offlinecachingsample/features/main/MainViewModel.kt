@@ -1,15 +1,29 @@
 package com.kyungeun.offlinecachingsample.features.main
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
 import com.kyungeun.offlinecachingsample.data.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    repository: ProductRepository
+    private val repository: ProductRepository
 ) : ViewModel() {
 
-    val products = repository.getProducts().asLiveData()
+    private val loadData = MutableLiveData(Unit)
+
+    val products = loadData.switchMap {
+        repository.getProducts().asLiveData()
+    }
+
+    fun deleteAll() {
+        viewModelScope.launch{
+            repository.deleteAllProducts()
+        }
+    }
+
+    fun refresh() {
+        loadData.value = Unit
+    }
 }
