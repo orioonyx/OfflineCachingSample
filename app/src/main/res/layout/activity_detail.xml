@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".features.detail.DetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,8 +32,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:textColor="@color/black"
             android:textSize="25sp"
+            android:theme="@style/AppTheme.TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/product_iv"
@@ -45,8 +46,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="20dp"
-            android:textColor="@color/black"
             android:textSize="15sp"
+            android:theme="@style/AppTheme.TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_tv"
@@ -59,9 +60,9 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="20dp"
-            android:textColor="@color/black"
             android:textSize="22sp"
             android:textStyle="bold"
+            android:theme="@style/AppTheme.TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/category_tv"
@@ -75,8 +76,8 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="20dp"
             android:paddingBottom="20dp"
-            android:textColor="@color/black"
             android:textSize="13sp"
+            android:theme="@style/AppTheme.TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/price_tv"
@@ -89,9 +90,22 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:visibility="invisible"
+            android:theme="@style/AppTheme.TextColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/gray"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
