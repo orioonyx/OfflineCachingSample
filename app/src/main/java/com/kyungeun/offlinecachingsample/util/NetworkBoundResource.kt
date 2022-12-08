@@ -1,6 +1,7 @@
 package com.kyungeun.offlinecachingsample.util
 
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 
 inline fun <ResultType, RequestType> networkBoundResource(
     // responsible for getting data from database
@@ -9,29 +10,39 @@ inline fun <ResultType, RequestType> networkBoundResource(
     crossinline fetch: suspend () -> RequestType,
     // responsible for taking data from fetch and saving it to database
     crossinline saveFetchResult: suspend (RequestType) -> Unit,
-    // responsible for deciding new data from api is needed or cache is enough
-    crossinline shouldFetch: (ResultType) -> Boolean = { true }
+    // responsible for deciding whether to fetch new data from rest api
+    crossinline shouldFetch: (ResultType) -> Boolean = { true },
+    // responsible for handling error when fetching data from rest api
+    crossinline onFetchFailed: (Throwable) -> Unit = { Timber.e(it) }
 ) = flow {
 
     // get one list of product from database
     val data = query().first()
 
-    // if its time to update cache if data is decent or not
+    //if its time to update cache if data is decent or not
     val flow = if (shouldFetch(data)) {
 
         // loading and cache data
         emit(Resource.Loading(data))
 
-        try {
-            // save data to catch
-            saveFetchResult(fetch())
+        val fetchedResult = fetch()
+        // if data is not same as api data
+        if (data != fetchedResult) {
+            try {
+                // save new data to database
+                saveFetchResult(fetchedResult)
 
-            // new data from api
+                // new data from api
+                query().map { Resource.Success(it) }
+            } catch (t: Throwable) {
+                // handle error
+                onFetchFailed(t)
+                // error and cache data
+                query().map { Resource.Error(t, it) }
+            }
+        } else { // same data from api
+            // cache data
             query().map { Resource.Success(it) }
-        } catch (t: Throwable) {
-
-            // error and cache data
-            query().map { Resource.Error(t, it) }
         }
     } else {
         // cache data
