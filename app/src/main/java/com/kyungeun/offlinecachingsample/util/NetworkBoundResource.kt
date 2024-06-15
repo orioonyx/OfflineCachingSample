@@ -16,38 +16,32 @@ inline fun <ResultType, RequestType> networkBoundResource(
     crossinline onFetchFailed: (Throwable) -> Unit = { Timber.e(it) }
 ) = flow {
 
-    // get one list of product from database
+    // Get the current data from the database
     val data = query().first()
 
-    //if its time to update cache if data is decent or not
+    // Check if we should fetch new data from the network
     val flow = if (shouldFetch(data)) {
-
-        // loading and cache data
+        // Emit loading state with the current data
         emit(Resource.Loading(data))
 
-        val fetchedResult = fetch()
-        // if data is not same as api data
-        if (data != fetchedResult) {
-            try {
-                // save new data to database
-                saveFetchResult(fetchedResult)
-
-                // new data from api
-                query().map { Resource.Success(it) }
-            } catch (t: Throwable) {
-                // handle error
-                onFetchFailed(t)
-                // error and cache data
-                query().map { Resource.Error(t, it) }
-            }
-        } else { // same data from api
-            // cache data
+        try {
+            // Fetch new data from the network
+            val fetchedResult = fetch()
+            // Save the fetched data to the database
+            saveFetchResult(fetchedResult)
+            // Emit the newly saved data from the database
             query().map { Resource.Success(it) }
+        } catch (throwable: Throwable) {
+            // Handle any errors during the network fetch
+            onFetchFailed(throwable)
+            // Emit an error state with the current data from the database
+            query().map { Resource.Error(throwable, it) }
         }
     } else {
-        // cache data
+        // Emit the current data from the database as a success state
         query().map { Resource.Success(it) }
     }
-    // get all
+
+    // Emit all the values from the flow
     emitAll(flow)
 }
